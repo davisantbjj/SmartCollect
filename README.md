@@ -22,7 +22,7 @@ Antes de clonar o projeto, instale na sua máquina:
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/seu-time/smartcollect.git
+git clone https://github.com/davisantbjj/SmartCollect.git
 cd SmartCollect
 ```
 
