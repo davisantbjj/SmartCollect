@@ -1,0 +1,11 @@
+# Variáveis de ambiente — nunca commitar
+.env
+
+# .NET
+**/bin/
+**/obj/
+*.user
+
+# Frontend
+frontend/node_modules/
+frontend/.env

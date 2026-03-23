@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: smartcollect_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-smartcollect}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-smart2026}
+      POSTGRES_DB: ${POSTGRES_DB:-smartcollect}
+    command: >
+      postgres
+      -c password_encryption=scram-sha-256
+    ports:
+      - "55432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-smartcollect} -d ${POSTGRES_DB:-smartcollect}"]
+      interval: 10s
+      timeout: 5s
+      retries: 8
+      start_period: 10s
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: smartcollect_pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@smartcollect.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin123}
+    ports:
+      - "8080:80"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  pgdata:
