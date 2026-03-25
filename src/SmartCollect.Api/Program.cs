@@ -1,6 +1,10 @@
+using dotenv.net;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using SmartCollect.Api.Data;
+
+// Carrega variáveis de ambiente do arquivo .env na raiz do projeto
+DotEnv.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,23 +12,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var configuredConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-var connectionBuilder = new NpgsqlConnectionStringBuilder(
-    string.IsNullOrWhiteSpace(configuredConnectionString)
-        ? "Host=localhost;Port=55432;Database=smartcollect;Username=smartcollect;Password=smart2026"
-        : configuredConnectionString);
+var dbHost = Environment.GetEnvironmentVariable("DB_HOST") ?? "localhost";
+var dbPort = int.Parse(Environment.GetEnvironmentVariable("DB_PORT") ?? "55432");
+var dbName = Environment.GetEnvironmentVariable("DB_NAME") ?? "smartcollect";
+var dbUser = Environment.GetEnvironmentVariable("DB_USER") ?? "smartcollect";
+var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "smart2026";
 
-var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
-var dbPort = Environment.GetEnvironmentVariable("DB_PORT");
-var dbName = Environment.GetEnvironmentVariable("DB_NAME");
-var dbUser = Environment.GetEnvironmentVariable("DB_USER");
-var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
-
-if (!string.IsNullOrWhiteSpace(dbHost)) connectionBuilder.Host = dbHost;
-if (int.TryParse(dbPort, out var parsedPort)) connectionBuilder.Port = parsedPort;
-if (!string.IsNullOrWhiteSpace(dbName)) connectionBuilder.Database = dbName;
-if (!string.IsNullOrWhiteSpace(dbUser)) connectionBuilder.Username = dbUser;
-if (!string.IsNullOrWhiteSpace(dbPassword)) connectionBuilder.Password = dbPassword;
+var connectionString = $"Host={dbHost};Port={dbPort};Database={dbName};Username={dbUser};Password={dbPassword}";
+var connectionBuilder = new NpgsqlConnectionStringBuilder(connectionString);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionBuilder.ConnectionString));

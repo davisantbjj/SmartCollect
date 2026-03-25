@@ -31,11 +31,11 @@ cd SmartCollect
 Crie um arquivo `.env` na **raiz do projeto** com o seguinte conteúdo:
 
 ```env
-POSTGRES_USER=smartcollect
-POSTGRES_PASSWORD=smart2026
-POSTGRES_DB=smartcollect
-PGADMIN_EMAIL=admin@smartcollect.com
-PGADMIN_PASSWORD=admin123
+POSTGRES_USER=seu_usuario_postgres
+POSTGRES_PASSWORD=sua_senha_forte
+POSTGRES_DB=nome_do_banco
+PGADMIN_EMAIL=seu_email_pgadmin
+PGADMIN_PASSWORD=sua_senha_pgadmin
 ```
 
 > ⚠️ **NUNCA commite o `.env`!** Ele já está no `.gitignore`.
@@ -82,7 +82,7 @@ Acesse o Swagger em: **http://localhost:5000/swagger**
 | Serviço | URL | Credenciais |
 |---|---|---|
 | API (Swagger) | http://localhost:5000/swagger | — |
-| pgAdmin (banco) | http://localhost:8080 | admin@smartcollect.com / admin123 |
+| pgAdmin (banco) | http://localhost:8080 | Use os valores definidos no seu `.env` |
 
 ---
 
