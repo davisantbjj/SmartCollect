@@ -31,14 +31,17 @@ cd SmartCollect
 Crie um arquivo `.env` na **raiz do projeto** com o seguinte conteúdo:
 
 ```env
-POSTGRES_USER=seu_usuario_postgres
-POSTGRES_PASSWORD=sua_senha_forte
-POSTGRES_DB=nome_do_banco
-PGADMIN_EMAIL=seu_email_pgadmin
-PGADMIN_PASSWORD=sua_senha_pgadmin
+POSTGRES_USER=""
+POSTGRES_PASSWORD=""
+POSTGRES_DB=""
+PGADMIN_EMAIL=""
+PGADMIN_PASSWORD=""
 ```
 
 > ⚠️ **NUNCA commite o `.env`!** Ele já está no `.gitignore`.
+
+> ✅ A API também lê o `.env` automaticamente em desenvolvimento.
+> Para conexão com banco, use preferencialmente: `POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`.
 
 ### 3. Suba o banco de dados
 
@@ -73,6 +76,8 @@ dotnet ef database update
 dotnet run
 ```
 
+Se o banco estiver no Docker com o `.env` configurado, a API usará essas variáveis para montar a conexão.
+
 Acesse o Swagger em: **http://localhost:5000/swagger**
 
 ---
@@ -82,7 +87,7 @@ Acesse o Swagger em: **http://localhost:5000/swagger**
 | Serviço | URL | Credenciais |
 |---|---|---|
 | API (Swagger) | http://localhost:5000/swagger | — |
-| pgAdmin (banco) | http://localhost:8080 | Use os valores definidos no seu `.env` |
+| pgAdmin (banco) | http://localhost:8080 | email / senha |
 
 ---
 
