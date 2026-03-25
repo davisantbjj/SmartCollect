@@ -31,11 +31,11 @@ cd SmartCollect
 Crie um arquivo `.env` na **raiz do projeto** com o seguinte conteúdo:
 
 ```env
-POSTGRES_USER=*****
-POSTGRES_PASSWORD=*****
-POSTGRES_DB=*******
-PGADMIN_EMAIL=*****
-PGADMIN_PASSWORD=*****
+POSTGRES_USER=smartcollect
+POSTGRES_PASSWORD=smart2026
+POSTGRES_DB=smartcollect
+PGADMIN_EMAIL=admin@smartcollect.com
+PGADMIN_PASSWORD=admin123
 ```
 
 > ⚠️ **NUNCA commite o `.env`!** Ele já está no `.gitignore`.
