@@ -28,15 +28,15 @@ public class AppDbContext : DbContext
         });
 
         modelBuilder.Entity<Usuario>(e => {
-            e.HasIndex(u => u.Email).IsUnique();
+            e.HasIndex(u => new { u.TenantId, u.Email }).IsUnique();
         });
 
         modelBuilder.Entity<Cliente>(e => {
-            e.HasIndex(c => c.Cnpj).IsUnique();
+            e.HasIndex(c => new { c.TenantId, c.Cnpj }).IsUnique();
         });
 
         modelBuilder.Entity<Titulo>(e => {
-            e.HasIndex(t => t.CodigoUnico).IsUnique();
+            e.HasIndex(t => new { t.TenantId, t.CodigoUnico }).IsUnique();
             e.Property(t => t.Valor).HasPrecision(18, 2);
         });
     }

@@ -4,6 +4,7 @@ public class Titulo
 {
     public Guid Id { get; set; }
     public Guid ClienteId { get; set; }
+    public Guid TenantId { get; set; }
     public Guid? ImportacaoId { get; set; }
     public string CodigoUnico { get; set; } = string.Empty;
     public decimal Valor { get; set; }
@@ -15,6 +16,7 @@ public class Titulo
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
     public Cliente Cliente { get; set; } = null!;
+    public Tenancy Tenant { get; set; } = null!;
     public ImportacaoArquivo? Importacao { get; set; }
     public ICollection<Ocorrencia> Ocorrencias { get; set; } = new List<Ocorrencia>();
     public ICollection<Envio> Envios { get; set; } = new List<Envio>();

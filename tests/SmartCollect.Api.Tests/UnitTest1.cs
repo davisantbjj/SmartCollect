@@ -29,11 +29,11 @@ public class AppDbContextModelConfigurationTests
         Assert.Contains(tenancyIndexes, i =>
             i.IsUnique && i.Properties.Select(p => p.Name).SequenceEqual([nameof(Tenancy.Cnpj)]));
         Assert.Contains(usuarioIndexes, i =>
-            i.IsUnique && i.Properties.Select(p => p.Name).SequenceEqual([nameof(Usuario.Email)]));
+            i.IsUnique && i.Properties.Select(p => p.Name).SequenceEqual([nameof(Usuario.TenantId), nameof(Usuario.Email)]));
         Assert.Contains(clienteIndexes, i =>
-            i.IsUnique && i.Properties.Select(p => p.Name).SequenceEqual([nameof(Cliente.Cnpj)]));
+            i.IsUnique && i.Properties.Select(p => p.Name).SequenceEqual([nameof(Cliente.TenantId), nameof(Cliente.Cnpj)]));
         Assert.Contains(tituloIndexes, i =>
-            i.IsUnique && i.Properties.Select(p => p.Name).SequenceEqual([nameof(Titulo.CodigoUnico)]));
+            i.IsUnique && i.Properties.Select(p => p.Name).SequenceEqual([nameof(Titulo.TenantId), nameof(Titulo.CodigoUnico)]));
     }
 
     [Fact]
