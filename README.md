@@ -28,7 +28,15 @@ cd SmartCollect
 
 ### 2. Crie o arquivo `.env`
 
-Crie um arquivo `.env` na **raiz do projeto** com o seguinte conteúdo:
+Use o template já versionado e depois preencha os valores:
+
+```bash
+copy .env.example .env
+```
+
+No PowerShell, `copy` e `cp` funcionam como alias.
+
+Conteúdo mínimo recomendado para rodar local:
 
 ```env
 POSTGRES_USER=""
@@ -42,6 +50,7 @@ PGADMIN_PASSWORD=""
 
 > ✅ A API também lê o `.env` automaticamente em desenvolvimento.
 > Para conexão com banco, use preferencialmente: `POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`.
+> Se quiser sobrescrever só para a API local, também pode usar: `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`.
 
 ### 3. Suba o banco de dados
 
@@ -55,6 +64,12 @@ Saída esperada:
 ```
 ✔ Container smartcollect_db      Started
 ✔ Container smartcollect_pgadmin Started
+```
+
+Verifique se os serviços ficaram saudáveis:
+
+```bash
+docker compose ps
 ```
 
 ### 4. Instale o dotnet-ef (apenas uma vez por máquina)
@@ -78,7 +93,12 @@ dotnet run
 
 Se o banco estiver no Docker com o `.env` configurado, a API usará essas variáveis para montar a conexão.
 
-Acesse o Swagger em: **http://localhost:5000/swagger**
+Portas padrão do ambiente:
+- PostgreSQL externo: `localhost:55432`
+- pgAdmin: `localhost:8080`
+- API: `localhost:5013`
+
+Acesse o Swagger em: **http://localhost:5013/swagger**
 
 ---
 
@@ -86,8 +106,14 @@ Acesse o Swagger em: **http://localhost:5000/swagger**
 
 | Serviço | URL | Credenciais |
 |---|---|---|
-| API (Swagger) | http://localhost:5000/swagger | — |
-| pgAdmin (banco) | http://localhost:8080 | email / senha |
+| API (Swagger) | http://localhost:5013/swagger | — |
+| PostgreSQL | localhost:55432 | definidas no `.env` |
+| pgAdmin (banco) | http://localhost:8080 | definidas no `.env` |
+
+No pgAdmin, registre o servidor com:
+- Host: `postgres`
+- Port: `5432`
+- Username/Password: os mesmos do `.env`
 
 ---
 
@@ -105,14 +131,14 @@ SmartCollect/
 │       ├── Models/          ← Entidades do banco
 │       ├── Services/        ← Regras de negócio
 │       ├── DTOs/            ← Objetos de entrada/saída
-│       ├── Jobs/            ← Processos automáticos
+│       ├── Settings/        ← Configurações da API
 │       ├── Data/
-│       │   ├── AppDbContext.cs
-│       │   ├── Migrations/
 │       │   └── Repositories/
+│       │       └── AppDbContext.cs
+│       ├── Migrations/      ← Geradas pelo EF Core
 │       ├── Program.cs
 │       └── appsettings.json
-└── frontend/                ← React (em desenvolvimento)
+└── tests/                   ← Testes automatizados (xUnit)
 ```
 
 ---
@@ -122,6 +148,9 @@ SmartCollect/
 ```bash
 # Subir o banco
 docker compose up -d
+
+# Ver status dos serviços
+docker compose ps
 
 # Parar o banco
 docker compose down

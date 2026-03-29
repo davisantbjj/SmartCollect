@@ -11,6 +11,7 @@ builder.Services.AddSwaggerGen();
 
 Env.TraversePath().Load();
 
+// Monta a connection string usando appsettings e permite sobrescrita por variáveis de ambiente.
 var configuredConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 var connectionBuilder = new NpgsqlConnectionStringBuilder(
     string.IsNullOrWhiteSpace(configuredConnectionString)
@@ -34,6 +35,7 @@ if (!string.IsNullOrWhiteSpace(dbName)) connectionBuilder.Database = dbName;
 if (!string.IsNullOrWhiteSpace(dbUser)) connectionBuilder.Username = dbUser;
 if (!string.IsNullOrWhiteSpace(dbPassword)) connectionBuilder.Password = dbPassword;
 
+// Falha cedo se a senha não estiver definida para evitar subir a API sem acesso ao banco.
 if (string.IsNullOrWhiteSpace(connectionBuilder.Password))
 {
     throw new InvalidOperationException(
